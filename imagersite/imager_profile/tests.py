@@ -19,10 +19,10 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ImagerProfile
 
-    bio = factory.Faker('')
-    phone = factory.Faker('')
-    location = factory.Faker('')
-    website = factory.Faker('')
+    bio = factory.Faker('street_address')
+    phone = factory.Faker('phone_number')
+    location = factory.Faker('location')
+    website = factory.Faker('website')
     fee = factory.Faker('')
     camera = factory.Faker('')
     services = factory.Faker('')
