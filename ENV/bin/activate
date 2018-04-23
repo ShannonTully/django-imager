@@ -1,6 +1,14 @@
 # This file must be used with "source bin/activate" *from bash*
 # you cannot run it directly
 
+# Project-specific env variables
+export SECRET_KEY='o#%q))t0ysl*@e_e06n!=menes=x^4(!8(6b8s7(47zs%n6(#q'
+export DEBUG=True
+export DB_NAME='imagersite'
+export DB_USER=''
+export DB_PASSWORD=''
+export DB_HOST='localhost'
+
 deactivate () {
     # reset old environment variables
     if [ -n "${_OLD_VIRTUAL_PATH:-}" ] ; then
