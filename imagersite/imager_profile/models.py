@@ -35,6 +35,9 @@ class ImagerProfile(models.Model):
 
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.user.username
+
     @classmethod
     def active(cls):
         return cls.objects.filter(is_active=True)
