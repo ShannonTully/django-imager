@@ -1,0 +1,21 @@
+body {
+    font-family: 'Vollkorn', serif;
+    font-weight: 300;
+    color: rgb(26, 26, 197);
+    background: rgb(155, 219, 135);
+  }
+  nav {
+      border: 2px solid rgb(19, 102, 32);
+  }
+  ul {
+    list-style-type: none;
+  }
+  .block_content {
+    margin-left: 30px;
+  }
+  footer {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+  }
+  
