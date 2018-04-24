@@ -29,6 +29,9 @@
     margin: 8px 4px;
     margin-bottom: 10px;
   }
+  #honey {
+    width: 600px;
+  }
   /* .nav_bar {
     font-family: 'Vollkorn', serif;
     color: black;
