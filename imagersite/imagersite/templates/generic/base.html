@@ -26,9 +26,6 @@
         {% endif %}       
       </ul>
     </nav>
-    {% if user.is_authenticated %}
-    <h3>Welcome to the site {{ user.username }}</h3>
-    {% endif %}
   </header>
   <main>
     {% block content %}
