@@ -10,14 +10,20 @@
   <header>
     <nav>
       <ul>
-        <li><a href="/">Home</a></li>
+        <li><a href="{% url "home" %}">Home</a></li>
+        {% if user.is_authenticated %}
         <li><a href="">Profile</a></li>
         <li><a href="">Products</a></li>
-        <li><a href="">Signup</a></li>
-        <li><a href="">Signin</a></li>
-        <li><a href="">Logout</a></li>
+        <li><a href="{% url "auth_logout" %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url "registration_register" %}">Signup</a></li>
+        <li><a href="{% url "auth_login" %}">Signin</a></li>
+        {% endif %}       
       </ul>
     </nav>
+    {% if user.is_authenticated %}
+    <h3>Welcome to the side {{ user.username }}</h3>
+    {% endif %}
   </header>
   <main>
     {% block content %}
