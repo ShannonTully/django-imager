@@ -127,3 +127,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Django 
+
+ACCOUNT_ACTIVATION_DAYS = 1
+LOGIN_REDIRECT-URL = '/'
+if DEBUG:
+    email_backend = 'django.core.mail.backends.comsole.EmailBackend'
+    
