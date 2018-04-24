@@ -24,6 +24,10 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     phone = factory.Faker('phone_number')
     location = factory.Faker('street_address')
     website = factory.Faker('email')
+    fee = factory.Faker('random_number')
+    camera = 'DSLR'
+    services = "Landscapes"
+    photostyles = 'underwater'
 
 
 class ProfileUnitTests(TestCase):
