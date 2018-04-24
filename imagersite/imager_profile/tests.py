@@ -10,7 +10,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = User
-
+    
     username = factory.Faker('user_name')
     email = factory.Faker('email')
 
@@ -19,21 +19,23 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = ImagerProfile
-
-    bio = factory.Faker('street_address')
+    bio = factory.Faker('company')
     phone = factory.Faker('phone_number')
-    location = factory.Faker('street_address')
+
+    location = factory.Faker('country')
     website = factory.Faker('email')
     fee = factory.Faker('random_number')
     camera = 'DSLR'
-    services = "Landscapes"
-    photostyles = 'underwater'
+    services = 'weddings'
+    photostyles = 'macro'
+
 
 
 class ProfileUnitTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super(TestCase, cls)
+        # fake = Faker()
         for _ in range(50):
             user = UserFactory.create()
             user.set_password(factory.Faker('password'))
