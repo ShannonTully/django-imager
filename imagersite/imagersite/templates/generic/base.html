@@ -14,7 +14,7 @@
   <header>
     <nav>
       <img id="logo" src="{% static "camera.png" %}" alt="logo">
-      <ul>
+      <ul id="main_nav">
         <li><a href="{% url "home" %}">Home</a></li>
         {% if user.is_authenticated %}
         <li><a href="">Profile</a></li>
