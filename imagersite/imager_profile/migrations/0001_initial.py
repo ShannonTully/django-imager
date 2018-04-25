@@ -7,7 +7,9 @@ import multiselectfield.db.fields
 
 
 class Migration(migrations.Migration):
-
+    '''
+    Migrations for Django
+    '''
     initial = True
 
     dependencies = [

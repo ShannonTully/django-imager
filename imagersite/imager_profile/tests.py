@@ -7,7 +7,9 @@ import factory
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-
+    '''
+    Creating a bunch of users
+    '''
     class Meta:
         model = User
     
@@ -16,7 +18,9 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
-
+    '''
+    Creating a bunch of Imager Profiles
+    '''
     class Meta:
         model = ImagerProfile
     bio = factory.Faker('company')
@@ -30,8 +34,14 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
 
 class ProfileUnitTests(TestCase):
+    '''
+    Unit tests for the profiles
+    '''
     @classmethod
     def setUpClass(cls):
+        '''
+        Setup for test
+        '''
         super(TestCase, cls)
         # fake = Faker()
         for _ in range(50):
@@ -44,9 +54,15 @@ class ProfileUnitTests(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        '''
+        Tear down for test
+        '''
         super(TestCase, cls)
         User.objects.all().delete()
 
     def test_user_can_see_its_profile(self):
+        '''
+        Test the profile exists
+        '''
         one_user = User.objects.first()
         self.assertIsNotNone(one_user.profile)
