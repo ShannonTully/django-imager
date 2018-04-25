@@ -1,5 +1,15 @@
 {% extends 'generic/base.html' %}
+{% load static %}
+
 
 {% block content %}
-<h2>Welcome to the home page!</h2>
+    {% if user.is_authenticated %}
+    <h3>Welcome back to Imager {{ user.username }}</h3>
+    <p>What woud you like to do today?</p>
+    {%else%}
+    <h1>Welcome to Imager!</h1>
+    <h2>The site that allows you to post your images online for others to view.</h2>
+    <p>If you are not a member, membership is free, so <a href="{% url "registration_register" %}">Signup</a> now.</br></br>If you are already a member please <a href="{% url "auth_login" %}">Signin</a>.</p>
+    {% endif %}
+    <img id="honey" src="{% static "Honey_Hug.jpg" %}" alt="">
 {% endblock %}
