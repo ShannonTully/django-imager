@@ -2,7 +2,7 @@
 
 **Authors**: Steven Starwalt, Shannon Tully
 
-**Version**: 1.0.0
+**Version**: 1.0.2
 
 ## Overview
 A site that hosts images
@@ -13,9 +13,11 @@ A site that hosts images
 - Python
 
 ## Architecture
-This app is written using Python 3.6 and Django
+This app is written using Python 3.6.4 and Django framework, for full environmental requirements check requirements.txt
 
 ## Change Log
-- 23 April 2018 - Start, Added git ignore, added ENV, django and req.txt, added factory.Faker. new requirements.txt, added tests for proper responses.
+- 23 April 2018 - Start, Added git ignore, added ENV, django and req.txt, added factory.Faker. new requirements.txt, added tests for proper responses. version 1.0.0
 
-- 24 April 2018 - added code for registration and django registration, new requirements.txt, added static css SMACSS file system and started styling, added image for the home page, new test for registration.
+- 24 April 2018 - added code for registration and django registration, new requirements.txt, added static css SMACSS file system and started styling, added image for the home page, new tests for registration. version 1.0.1
+
+- 25 April 2018 - added imager_images app, added Album and Photo models, MEDIA folder with an images folder, added sorl.thumbnail & pillow, new requirements.txt, added tests for the imager_images app. version 1.0.2
