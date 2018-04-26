@@ -118,5 +118,4 @@ venv.bak/
 # media
 /MEDIA
 
-
 # End of https://www.gitignore.io/api/git,python,django
