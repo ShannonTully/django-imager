@@ -1,13 +1,14 @@
+"""Models for the profiles."""
+
 from django.db import models
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
+from django.dispatch import receiver
 
 
-# Create your models here.
 class ImagerProfile(models.Model):
-    '''
-    Database model for the Imager Profile
-    '''
+    """Database model for the Imager Profile."""
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
     bio = models.TextField(blank=True, null=True)
@@ -39,8 +40,17 @@ class ImagerProfile(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
+        """Show the stringed username."""
         return self.user.username
 
     @classmethod
     def active(cls):
+        """Show if profile is active."""
         return cls.objects.filter(is_active=True)
+
+    @receiver(models.signal.post_save, sender=User)
+    def create_profile(sender, **kwargs):
+        """Implement the reciever for the profile."""
+        if kwargs['created']:
+            profile = ImagerProfile(user=kwargs['instance'])
+            profile.save()

@@ -1,0 +1,18 @@
+{% extends "generic/base.html" %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="profile-container container">
+    {% if user.first_name %}
+    <h3>{% trans "Welcome" %}, {{ user.first_name }}</h3>    
+    {% else %}
+    <h3>{% trans "Welcome" %} {{ user.username }}</h3>  
+    {% endif %}
+
+</section>
+{% else %}
+{% endif %}
+
+{% endblock content %}
