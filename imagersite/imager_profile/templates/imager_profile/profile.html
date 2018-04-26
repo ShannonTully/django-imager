@@ -1,0 +1,31 @@
+{% extends "generic/base.html" %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="profile-container container">
+    {% if user.first_name %}
+    <h3>{% trans "Welcome" %} {{ user.first_name }}</h3>    
+    {% else %}
+    <h3>{% trans "Welcome" %} {{ user.username }}</h3>  
+    {% endif %}
+
+    <h2>You're viewing the profile for {{ profile.user.username }}</h2>
+    <p>{% trans "Last Login" %}: {{ profile.user.last_login }}</p>
+    <p>{% trans "Member Since" %}: {{ profile.user.date_joined }}</p>
+ 
+    <section class="profile-info">
+        <h2>Profile Information</h2>
+        {% if profile.user.username == user.username %}
+        <a href="{% url "settings" username=user.username %}">{% trans "Edit Profile" %}</a>
+        {% endif %}
+    </section>
+
+  <!-- Handle the Product and Photo context that was passed from the view -->
+
+</section>
+{% else %}
+<h1>{% trans "Please log into the site" %}</h1>
+{% endif %}
+{% endblock content %}
