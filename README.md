@@ -8,6 +8,31 @@
 A site that hosts images
 
 ## Getting Started
+*  Project-specific env variables
+* `export SECRET_KEY='secret key'`
+* `export DEBUG=True`
+* `export DB_NAME='imager'`
+* `export DB_USER=''` set these two if need for linux
+* `export DB_PASSWORD=''`
+* `export DB_HOST='localhost'` 
+
+### initalize and run server
+* `dropdb $DB_NAME`
+* `createdb $DB_NAME`
+* `./manage.py makemigrations`
+* `./manage.py migrate`
+* `./manage.py check`
+* `./manage.py test`
+* `./manage.py runserver`
+
+### Routes
+* Home
+* Admin
+* Login
+* Register
+* logout
+* Activate
+
 
 ### Requirements
 - Python
