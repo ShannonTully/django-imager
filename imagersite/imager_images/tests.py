@@ -5,7 +5,6 @@ from .models import Photo, Album, User
 import factory
 
 
-# Create your tests here.
 class UserFactory(factory.django.DjangoModelFactory):
     """Creating a bunch of users."""
 

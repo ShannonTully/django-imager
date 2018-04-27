@@ -6,8 +6,8 @@ from .views import library_view, album_view, photo_view, album_detail_view, phot
 
 urlpatterns = [
     path('library/', library_view, name='library'),
-    path('album/', album_view, name='album'),
-    path('photo/', photo_view, name='photo'),
-    path('album/<int: id>', album_detail_view, name='album_detail'),
-    path('photo/<int: id>', photo_detail_view, name='photo_detail'),
+    path('albums/', album_view, name='album'),
+    path('photos/', photo_view, name='photo'),
+    path('albums/<int: id>', album_detail_view, name='album_detail'),
+    path('photos/<int: id>', photo_detail_view, name='photo_detail'),
 ]

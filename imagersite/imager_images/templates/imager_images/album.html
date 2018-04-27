@@ -3,28 +3,11 @@
 {% load i18n %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<section class="album-container container">
-    {% if user.first_name %}
-    <h3>{% trans "Welcome" %} to your albums {{ user.first_name }}</h3>    
-    {% else %}
-    <h3>{% trans "Welcome" %} to your albums {{ user.username }}</h3>
-    {% endif %}
-    <section class="albums">
-        <h2>Your albums</h2>
-        {% for album in albums %}
-        {% thumbnail album "100x100" crop="center" as im %}
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-        {% endthumbnail %}       
-        {% endfor %}
-    </section>
-{% endif %}
-    <section class="public-albums">
-        <h2>Public Albums</h2>
-        {% for album in public_albums %}
-        {% thumbnail album "100x100" crop="center" as im %}
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-        {% endthumbnail %}       
-    </section>
+<section class="public-album-container container">
+    <h2>Public Albums</h2>
+    {% for album in public_albums %}
+    {% thumbnail album "100x100" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
 </section>
 {% endblock content %}
