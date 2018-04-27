@@ -41,3 +41,59 @@ def library_view(request, username=None):
     }
 
     return render(request, 'imager_images/library.html', context)
+
+
+def album_view(request):
+    """Define the library view."""
+    public_albums = Album.objects.filter(published='PUBLIC')
+
+    num_public_albums = len(public_albums)
+
+    context = {
+        'public_albums': public_albums,
+        'num_public_albums': num_public_albums,
+    }
+
+    return render(request, 'imager_images/album.html', context)
+
+
+def photo_view(request):
+    """Define the library view."""
+    public_photos = Photo.objects.filter(published='PUBLIC')
+
+    num_public_photos = len(public_photos)
+
+    context = {
+        'public_photos': num_public_photos,
+        'num_public_photos': num_public_photos,
+    }
+
+    return render(request, 'imager_images/photo.html', context)
+
+
+def album_detail_view(request):
+    """Define the library view."""
+    public_albums = Album.objects.filter(published='PUBLIC')
+
+    num_public_albums = len(public_albums)
+
+    context = {
+        'public_albums': public_albums,
+        'num_public_albums': num_public_albums,
+    }
+
+    return render(request, 'imager_images/album.html', context)
+
+
+def photo_detail_view(request):
+    """Define the library view."""
+    public_photos = Photo.objects.filter(published='PUBLIC')
+
+    num_public_photos = len(public_photos)
+
+    context = {
+        'public_photos': num_public_photos,
+        'num_public_photos': num_public_photos,
+    }
+
+    return render(request, 'imager_images/photo.html', context)
