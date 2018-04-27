@@ -1,0 +1,30 @@
+{% extends "generic/base.html" %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="photo-container container">
+    {% if user.first_name %}
+    <h3>{% trans "Welcome" %} to your photos {{ user.first_name }}</h3>    
+    {% else %}
+    <h3>{% trans "Welcome" %} to your photos {{ user.username }}</h3>
+    {% endif %}
+    <section class="photos">
+        <h2>Your Photos</h2>
+        {% for photo in photos %}
+        {% thumbnail photo "100x100" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}       
+        {% endfor %}
+    </section>
+{% endif %}
+    <section class="public-photos">
+        <h2>Public Photos</h2>
+        {% for photo in public_photos %}
+        {% thumbnail photo "100x100" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}       
+    </section>
+</section>
+{% endblock content %}
