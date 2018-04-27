@@ -1,3 +1,5 @@
+"""Register the models for the admin."""
+
 from django.contrib import admin
 from .models import Photo, Album
 

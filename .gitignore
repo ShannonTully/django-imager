@@ -115,5 +115,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# media
+/MEDIA
 
 # End of https://www.gitignore.io/api/git,python,django
+
+# MEDIA
+/MEDIA
