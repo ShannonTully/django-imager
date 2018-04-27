@@ -44,3 +44,40 @@ class BasicViewTests(TestCase):
         link = urlparse(link)
         self.client.get(link.path)
         self.assertTrue(self.client.login(username='person', password='codefellows1'))
+
+
+class ImagesRoutesTests(TestCase):
+    """Class for testing views."""
+
+    def test_library(self):
+        """Test library route."""
+        response = self.client.get('/images/library/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_album(self):
+        """Test album route."""
+        response = self.client.get('/images/albums/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'imager_images/album.html')
+        self.assertEqual(response.templates[1].name, 'generic/base.html')
+
+    def test_photo(self):
+        """Test photo route."""
+        response = self.client.get('/images/photos/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'imager_images/photo.html')
+        self.assertEqual(response.templates[1].name, 'generic/base.html')
+
+    def test_album_detail(self):
+        """Test album_detail route."""
+        response = self.client.get('/images/albums/1')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'imager_images/album_detail.html')
+        self.assertEqual(response.templates[1].name, 'generic/base.html')
+
+    def test_photo_detail(self):
+        """Test photo_detail route."""
+        response = self.client.get('/images/photos/1')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'imager_images/photo_detail.html')
+        self.assertEqual(response.templates[1].name, 'generic/base.html')
