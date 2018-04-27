@@ -5,10 +5,15 @@
 {% block content %}
 <section class="public-album-container container">
     <h2>Album</h2>
-    {% for photo in photos %}
-    {% thumbnail photo "100x100" crop="center" as im %}
+    {% for photo in this_album.photos.all %}
+    {% thumbnail photo.image "100x100" crop="center" as im %}
         <a href="{% url "photo_detail" id=photo.id %}"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
     {% endthumbnail %}
+    <p>title: {{ this_album.title }}</p>
+    <p>description: {{ this_album.description }}</p>
+    <p>date created: {{ this_album.date_created }}</p>
+    <p>date modified: {{ this_album.date_modified }}</p>
+    <p>date published: {{ this_album.date_published }}</p>
     {% endfor %}
 </section>
 {% endblock content %}

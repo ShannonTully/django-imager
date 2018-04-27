@@ -5,6 +5,12 @@
 {% block content %}
 <section class="public-album-container container">
     <h2>Photo</h2>
-        <img src="{{ this_photo.image }}">
+        <img src="{{ this_photo.image.url }}">
+        <p>title: {{ this_photo.title }}</p>
+        <p>description: {{ this_photo.description }}</p>
+        <p>date uploaded: {{ this_photo.date_uploaded }}</p>
+        <p>date modified: {{ this_photo.date_modified }}</p>
+        <p>date published: {{ this_photo.date_published }}</p>
+
 </section>
 {% endblock content %}

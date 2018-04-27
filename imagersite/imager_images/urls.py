@@ -8,6 +8,6 @@ urlpatterns = [
     path('library/', library_view, name='library'),
     path('albums/', album_view, name='album'),
     path('photos/', photo_view, name='photo'),
-    path('albums/<int: id>', album_detail_view, name='album_detail'),
-    path('photos/<int: id>', photo_detail_view, name='photo_detail'),
+    path('albums/<int:id>', album_detail_view, name='album_detail'),
+    path('photos/<int:id>', photo_detail_view, name='photo_detail'),
 ]
