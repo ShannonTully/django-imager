@@ -17,9 +17,9 @@ def profile_view(request, username=None):
 
     profile = get_object_or_404(ImagerProfile, user__username=username)
     albums = Album.objects.filter(user__username=username)
-    photos = Photo.objects.filter(album__user__username=username)
+    photos = Photo.objects.filter(albums__user__username=username)
     public_photos = photos.filter(published='PUBLIC')
-    public_albums = albums.filter(published='PUBLIC')    
+    public_albums = albums.filter(published='PUBLIC')   
 
     if not owner:
         photos = Photo.objects.filter(published='PUBLIC')

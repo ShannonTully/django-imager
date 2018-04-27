@@ -1,5 +1,4 @@
 {% extends "generic/base.html" %}
-{% load thumbnail %}
 {% load i18n %}
 
 {% block content %}
@@ -16,10 +15,6 @@
     <p>{% trans "Member Since" %}: {{ profile.user.date_joined }}</p>
     
     {% if profile.user.username == user.username %}
-    <section class="profile-info">
-        <h2>Profile Information</h2>
-        <a href="{% url "settings" username=user.username %}">{% trans "Edit Profile" %}</a>
-    </section>
     <section class="profile-images">
         <h2>Your Albums and Photos</h2>
         <p>{% trans "You have" %} {{ num_albums }} {% trans "albums" %}, {{ num_public_albums }} {% trans "are public" %}</p>
