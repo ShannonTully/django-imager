@@ -46,3 +46,5 @@ This app is written using Python 3.6.4 and Django framework, for full environmen
 - 24 April 2018 - added code for registration and django registration, new requirements.txt, added static css SMACSS file system and started styling, added image for the home page, new tests for registration. version 1.0.1
 
 - 25 April 2018 - added imager_images app, added Album and Photo models, MEDIA folder with an images folder, added sorl.thumbnail & pillow, new requirements.txt, added tests for the imager_images app. version 1.0.2
+
+- 26 April 2018 - added the profile and library page views. Still need to test and add a package to render thumbnails for the library page.  Will update version after tests are written and passed for these additions.
