@@ -48,9 +48,10 @@ class ImagerProfile(models.Model):
         """Show if profile is active."""
         return cls.objects.filter(is_active=True)
 
-    @receiver(models.signals.post_save, sender=User)
-    def create_profile(sender, **kwargs):
-        """Implement the reciever for the profile."""
-        if kwargs['created']:
-            profile = ImagerProfile(user=kwargs['instance'])
-            profile.save()
+
+@receiver(models.signals.post_save, sender=User)
+def create_profile(sender, **kwargs):
+    """Implement the reciever for the profile."""
+    if kwargs['created']:
+        profile = ImagerProfile(user=kwargs['instance'])
+        profile.save()

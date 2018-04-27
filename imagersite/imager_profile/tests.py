@@ -50,8 +50,8 @@ class ProfileUnitTests(TestCase):
             user.set_password(factory.Faker('password'))
             user.save()
 
-            profile = ProfileFactory.create(user=user)
-            profile.save()
+            # profile = ProfileFactory.create(user=user)
+            # profile.save()
 
     @classmethod
     def tearDownClass(cls):
