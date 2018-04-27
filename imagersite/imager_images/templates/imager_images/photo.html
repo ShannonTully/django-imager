@@ -7,7 +7,7 @@
     <h2>Public Photos</h2>
     {% for photo in public_photos %}
     {% thumbnail photo "100x100" crop="center" as im %}
-        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    <a href="{% url "photo_detail" id=photo.id %}"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
     {% endthumbnail %}       
     {% endfor %}
 </section>

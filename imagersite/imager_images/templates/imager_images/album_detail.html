@@ -1,0 +1,14 @@
+{% extends "generic/base.html" %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block content %}
+<section class="public-album-container container">
+    <h2>Album</h2>
+    {% for photo in photos %}
+    {% thumbnail photo "100x100" crop="center" as im %}
+        <a href="{% url "photo_detail" id=photo.id %}"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
+    {% endthumbnail %}
+    {% endfor %}
+</section>
+{% endblock content %}

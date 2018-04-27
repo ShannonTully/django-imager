@@ -47,11 +47,8 @@ def album_view(request):
     """Define the library view."""
     public_albums = Album.objects.filter(published='PUBLIC')
 
-    num_public_albums = len(public_albums)
-
     context = {
         'public_albums': public_albums,
-        'num_public_albums': num_public_albums,
     }
 
     return render(request, 'imager_images/album.html', context)
@@ -61,39 +58,32 @@ def photo_view(request):
     """Define the library view."""
     public_photos = Photo.objects.filter(published='PUBLIC')
 
-    num_public_photos = len(public_photos)
-
     context = {
-        'public_photos': num_public_photos,
-        'num_public_photos': num_public_photos,
+        'public_photos': public_photos,
     }
 
     return render(request, 'imager_images/photo.html', context)
 
 
-def album_detail_view(request):
+def album_detail_view(request, album):
     """Define the library view."""
-    public_albums = Album.objects.filter(published='PUBLIC')
-
-    num_public_albums = len(public_albums)
+    this_album = Album.objects.filter(id=album.id)
+    photos = Photo.objects.filter(albums=this_album)
 
     context = {
-        'public_albums': public_albums,
-        'num_public_albums': num_public_albums,
+        'photos': photos,
+        'this_album': this_album,
     }
 
-    return render(request, 'imager_images/album.html', context)
+    return render(request, 'imager_images/album_detail.html', context)
 
 
-def photo_detail_view(request):
+def photo_detail_view(request, photo):
     """Define the library view."""
-    public_photos = Photo.objects.filter(published='PUBLIC')
-
-    num_public_photos = len(public_photos)
+    this_photo = Photo.objects.filter(id=photo.id)
 
     context = {
-        'public_photos': num_public_photos,
-        'num_public_photos': num_public_photos,
+        'this_photo': this_photo,
     }
 
-    return render(request, 'imager_images/photo.html', context)
+    return render(request, 'imager_images/photo_detail.html', context)

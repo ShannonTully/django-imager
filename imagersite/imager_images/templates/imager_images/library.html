@@ -13,7 +13,6 @@
 
     <h2>You're viewing the library for {{ user.username }}</h2>
     
-    {% if profile.user.username == user.username %}
     <section class="albums">
         <h2>Albums</h2>
         {% for album in albums %}
@@ -30,24 +29,6 @@
         {% endthumbnail %}       
         {% endfor %}
     </section>
-    {% else %}
-    <section class="public-albums">
-            <h2>Public Albums</h2>
-            {% for album in public_albums %}
-            {% thumbnail album.cover "100x100" crop="center" as im %}
-                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-            {% endthumbnail %}
-            {% endfor %}
-        </section>
-        <section class="public-photos">
-            <h2>Public Photos</h2>
-            {% for photo in public_photos %}
-            {% thumbnail photo "100x100" crop="center" as im %}
-                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-            {% endthumbnail %}       
-            {% endfor %}
-        </section>
-    {% endif %}
 </section>
 {% else %}
 <h1>{% trans "Please log into the site to view your library" %}</h1>

@@ -1,0 +1,10 @@
+{% extends "generic/base.html" %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block content %}
+<section class="public-album-container container">
+    <h2>Photo</h2>
+        <img src="{{ this_photo.image }}">
+</section>
+{% endblock content %}

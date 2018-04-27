@@ -21,7 +21,6 @@
         <p>{% trans "You have" %} {{ num_photos }} {% trans "photos" %}, {{ num_public_photos }} {% trans "are public" %}</p>
     </section>
     {% endif %}
-    <a href="{% url "library" username=profile.user.username %}">{% trans "Library" %}</a>
 
   <!-- Handle the Product and Photo context that was passed from the view -->
 

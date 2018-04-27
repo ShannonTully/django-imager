@@ -7,7 +7,8 @@
     <h2>Public Albums</h2>
     {% for album in public_albums %}
     {% thumbnail album "100x100" crop="center" as im %}
-        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        <a href="{% url "album_detail" id=album.id %}"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
     {% endthumbnail %}
+    {% endfor %}
 </section>
 {% endblock content %}
