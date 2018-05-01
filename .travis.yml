@@ -1,0 +1,23 @@
+language: python
+python:
+  - "3.6"
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c "create database imagersite;" -U postgres
+
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+
+script:
+  - python imagersite/manage.py migrate
+  - coverage run imagersite/manage.py test imagersite
+
+after_success:
+  - coveralls
+
+notifications:
+  email: false
