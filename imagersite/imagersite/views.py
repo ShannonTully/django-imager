@@ -6,12 +6,13 @@ from imager_images.models import Photo
 
 class HomeView(TemplateView):
     """Make the HomeView class."""
-
+    # import pdb; pdb.set_trace()
     template_name = 'generic/home.html'
 
-    def get_context_photo(self, **kwargs):
+    def get_context_data(self, **kwargs):
         """Get the context to fill the page."""
         context = super().get_context_data(**kwargs)
+        # import pdb; pdb.set_trace()
         public_photos = Photo.objects.filter(published='PUBLIC')
 
         if public_photos.count():

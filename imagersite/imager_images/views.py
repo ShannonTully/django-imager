@@ -2,9 +2,8 @@
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
 from .models import Album, Photo
-from django.contrib.auth.models import User
 
 
 class LibraryView(ListView):
@@ -26,7 +25,7 @@ class LibraryView(ListView):
         albums = Album.objects.filter(user__username=username)
         photos = Photo.objects.filter(user__username=username)
 
-        return albums, photos     
+        return albums, photos
 
     def get_context_data(self, **kwargs):
         """Filter the context for display."""
@@ -97,7 +96,7 @@ class PhotoView(ListView):
 class AlbumDetailView(DetailView):
     """Define the album detail view class."""
 
-    template_name = 'imager_images/album.html'
+    template_name = 'imager_images/album_detail.html'
     model = Album
     context_object_name = 'album'
     slug_url_kwarg = 'id'
@@ -126,7 +125,7 @@ class AlbumDetailView(DetailView):
 class PhotoDetailView(DetailView):
     """Define the album detail view class."""
 
-    template_name = 'imager_images/photo.html'
+    template_name = 'imager_images/photo_detail.html'
     model = Photo
     context_object_name = 'photo'
     slug_url_kwarg = 'id'
@@ -148,6 +147,5 @@ class PhotoDetailView(DetailView):
         context = {
             'this_photo': this_photo,
         }
-
+        # import pdb; pdb.set_trace()
         return context
-
