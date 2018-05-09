@@ -2,8 +2,11 @@
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 from .models import Album, Photo
+from .forms import AlbumForm, PhotoForm
+from django.urls import reverse_lazy
 
 
 class LibraryView(ListView):
@@ -149,3 +152,65 @@ class PhotoDetailView(DetailView):
         }
 
         return context
+
+
+class AddAlbumView(CreateView):
+    """Define the add album view class."""
+
+    model = Album
+    form_class = AlbumForm
+    success_url = reverse_lazy('library')
+
+    def get(self, *args, **kwargs):
+        """Check that user is authenticated, get args and kwargs."""
+        if not self.request.user.is_authenticated:
+            return redirect('home')
+
+        return super().get(*args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        """Check that user is authenticated, get args and kwargs."""
+        if not self.request.user.is_authenticated:
+            return redirect('home')
+
+        return super().post(*args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'username': self.request.user.username})
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class AddPhotoView(CreateView):
+    """Define the add Photo view class."""
+
+    model = Photo
+    form_class = PhotoForm
+    success_url = reverse_lazy('library')
+
+    def get(self, *args, **kwargs):
+        """Check that user is authenticated, get args and kwargs."""
+        if not self.request.user.is_authenticated:
+            return redirect('home')
+
+        return super().get(*args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        """Check that user is authenticated, get args and kwargs."""
+        if not self.request.user.is_authenticated:
+            return redirect('home')
+
+        return super().post(*args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'username': self.request.user.username})
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)

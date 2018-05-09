@@ -22,6 +22,7 @@
         {% endthumbnail %}
     </a>
         {% endfor %}
+        <button><a href="{% url "add_album" %}">Add New</a></button>
     </section>
     <section class="photos">
         <h2>Photos</h2>
@@ -30,6 +31,7 @@
         <a href="{% url "photo_detail" id=photo.id %}"><img title="{{photo.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
         {% endthumbnail %}       
         {% endfor %}
+        <button><a href="{% url "add_photo" %}">Add New</a></button>
     </section>
 </section>
 {% else %}
