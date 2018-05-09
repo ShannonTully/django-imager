@@ -147,5 +147,5 @@ class PhotoDetailView(DetailView):
         context = {
             'this_photo': this_photo,
         }
-        # import pdb; pdb.set_trace()
+
         return context
