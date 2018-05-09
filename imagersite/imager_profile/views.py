@@ -19,7 +19,7 @@ class ProfileView(DetailView):
         """Check that user is authenticated, get args and kwargs."""
         if not self.request.user.is_authenticated:
             return redirect('home')
-        # import pdb; pdb.set_trace()
+
         if self.kwargs == {}:
             self.kwargs['username'] = self.request.user.get_username()
 
