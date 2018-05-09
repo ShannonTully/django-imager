@@ -43,6 +43,7 @@ class ProfileView(DetailView):
         if not owner:
             photos = Photo.objects.filter(published='PUBLIC')
             albums = Album.objects.filter(published='PUBLIC')
+
         num_albums = len(albums)
         num_photos = len(photos)
         num_public_albums = len(public_albums)
