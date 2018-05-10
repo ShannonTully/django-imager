@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 import factory
 from django.contrib.auth.models import User
 from imager_images.models import Photo, Album
+import tempfile
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -31,6 +32,7 @@ class PhotoFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('company')
     date_uploaded = factory.Faker('date_time')
     date_modified = factory.Faker('date_time')
+    image = tempfile.NamedTemporaryFile(suffix=".jpg").name
     published = 'PUBLIC'
 
 
@@ -54,7 +56,7 @@ class EmptyViewTests(TestCase):
     def test_home_view_empty(self):
             """Test home view public photos are empty."""
             response = self.client.get('/')
-            self.assertEqual(len(response.context['public_photos']), 0)
+            self.assertEqual(response.context['image_title'], 'logo')
 
 
 class BasicViewTests(TestCase):
@@ -86,15 +88,11 @@ class BasicViewTests(TestCase):
         User.objects.all().delete()
         Photo.objects.all().delete()
 
-    def test_home_view_valid(self):
-        """Test home view public photos are valid."""
-        response = self.client.get('/')
-        self.assertEqual(len(response.context['public_photos']), 50)
-
     def test_home_view_correct(self):
         """Test that the first value pased to the home view is the correct photo."""
         response = self.client.get('/')
-        self.assertEqual(response.context['public_photos'].first().title, Photo.objects.first().title)
+        photo = Photo.objects.get(title=response.context['image_title'])
+        self.assertEqual(response.context['image_url'], photo.image.url)
 
     def test_home_status(self):
         """Test home route status code."""
@@ -179,11 +177,21 @@ class ImagesRoutesTests(TestCase):
             user.set_password(factory.Faker('password'))
             user.save()
 
+            album = AlbumFactory.create(user=user)
+            album.save()
+
+            photo = PhotoFactory.create(user=user)
+            photo.save()
+
+            # photo.albums.add(album)
+            album.photos.add(photo)
+
     @classmethod
     def tearDownClass(cls):
         """Tear down for test."""
         super(TestCase, cls)
         User.objects.all().delete()
+        Photo.objects.all().delete()
 
     def test_library_status(self):
         """Test library route status code."""
@@ -250,60 +258,90 @@ class ImagesRoutesTests(TestCase):
 
     def test_album_status(self):
         """Test album route status code."""
+        user = User.objects.first()
+        self.client.force_login(user)
         response = self.client.get('/images/albums/')
         self.assertEqual(response.status_code, 200)
 
     def test_album_template(self):
         """Test album route template."""
+        user = User.objects.first()
+        self.client.force_login(user)
         response = self.client.get('/images/albums/')
         self.assertEqual(response.templates[0].name, 'imager_images/album.html')
 
     def test_album_base_template(self):
         """Test album route base template."""
+        user = User.objects.first()
+        self.client.force_login(user)
         response = self.client.get('/images/albums/')
         self.assertEqual(response.templates[1].name, 'generic/base.html')
 
     def test_photo_status(self):
         """Test photo route status code."""
+        user = User.objects.first()
+        self.client.force_login(user)
         response = self.client.get('/images/photos/')
         self.assertEqual(response.status_code, 200)
 
     def test_photo_template(self):
         """Test photo route template."""
+        user = User.objects.first()
+        self.client.force_login(user)
         response = self.client.get('/images/photos/')
         self.assertEqual(response.templates[0].name, 'imager_images/photo.html')
 
     def test_photo_base_template(self):
         """Test photo route base template."""
+        user = User.objects.first()
+        self.client.force_login(user)
         response = self.client.get('/images/photos/')
         self.assertEqual(response.templates[1].name, 'generic/base.html')
 
     def test_album_detail_status(self):
         """Test album_detail route status code."""
-        response = self.client.get('/images/albums/1')
+        user = User.objects.first()
+        self.client.force_login(user)
+        album_id = Album.objects.first().id
+        response = self.client.get(f'/images/albums/{album_id}')
         self.assertEqual(response.status_code, 200)
 
     def test_album_detail_template(self):
         """Test album_detail route template."""
-        response = self.client.get('/images/albums/1')
+        user = User.objects.first()
+        self.client.force_login(user)
+        album_id = Album.objects.first().id
+        response = self.client.get(f'/images/albums/{album_id}')
         self.assertEqual(response.templates[0].name, 'imager_images/album_detail.html')
 
     def test_album_detail_base_template(self):
         """Test album_detail route base template."""
-        response = self.client.get('/images/albums/1')
+        user = User.objects.first()
+        self.client.force_login(user)
+        album_id = Album.objects.first().id
+        response = self.client.get(f'/images/albums/{album_id}')
         self.assertEqual(response.templates[1].name, 'generic/base.html')
 
     def test_photo_detail_status(self):
         """Test photo_detail route status code."""
-        response = self.client.get('/images/photos/1')
+        user = User.objects.first()
+        self.client.force_login(user)
+        photo_id = Photo.objects.first().id
+        response = self.client.get(f'/images/photos/{photo_id}')
         self.assertEqual(response.status_code, 200)
 
     def test_photo_detail_template(self):
         """Test photo_detail route template."""
-        response = self.client.get('/images/photos/1')
+        user = User.objects.first()
+        self.client.force_login(user)
+        photo_id = Photo.objects.first().id
+        response = self.client.get(f'/images/photos/{photo_id}')
         self.assertEqual(response.templates[0].name, 'imager_images/photo_detail.html')
 
     def test_photo_detail_template_base(self):
         """Test photo_detail route base template."""
-        response = self.client.get('/images/photos/1')
+        user = User.objects.first()
+        self.client.force_login(user)
+        photo_id = Photo.objects.first().id
+        response = self.client.get(f'/images/photos/{photo_id}')
         self.assertEqual(response.templates[1].name, 'generic/base.html')

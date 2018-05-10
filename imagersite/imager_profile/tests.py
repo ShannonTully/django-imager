@@ -157,10 +157,10 @@ class ProfileViewTests(TestCase):
         """Test profile view photos."""
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('profile'))
-        self.assertEqual(len(response.context['photos']), 1)
+        self.assertEqual(len(response.context['photos']), 5)
 
     def test_profile_view_num_photos(self):
         """Test profile view num_photos."""
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('profile'))
-        self.assertEqual(response.context['num_photos'], 1)
+        self.assertEqual(response.context['num_photos'], 5)
