@@ -7,20 +7,23 @@ from django.shortcuts import redirect
 from .models import Album, Photo
 from .forms import AlbumForm, PhotoForm
 from django.urls import reverse_lazy
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class LibraryView(ListView):
+class LibraryView(LoginRequiredMixin, ListView):
     """Define the library view class."""
 
     template_name = 'imager_images/library.html'
     context_object_name = 'albums_and_photos'
 
-    def get(self, *args, **kwargs):
-        """Check that user is authenticated, get args and kwargs."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
+    login_url = reverse_lazy('auth_login')
+    # def get(self, *args, **kwargs):
+    #     """Check that user is authenticated, get args and kwargs."""
+    #     if not self.request.user.is_authenticated:
+    #         return redirect('home')
 
-        return super().get(*args, **kwargs)
+    #     return super().get(*args, **kwargs)
 
     def get_queryset(self):
         """Get the context to display."""
