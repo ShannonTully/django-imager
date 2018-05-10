@@ -34,3 +34,31 @@ class PhotoForm(ModelForm):
         username = kwargs.pop('username')
         super().__init__(*args, **kwargs)
         self.fields['albums'].queryset = Album.objects.filter(user__username=username)
+
+
+class AlbumEditForm(ModelForm):
+    """Define the album edit class."""
+
+    class Meta:
+        """Define the meta data for the form."""
+
+        model = Album
+        fields = ['cover', 'title', 'description', 'published']
+
+    def __init__(self, *args, **kwargs):
+        """Set the initial form fields to be filled."""
+        super().__init__(*args, **kwargs)
+
+
+class PhotoEditForm(ModelForm):
+    """Define the photo edit class."""
+
+    class Meta:
+        """Define the meta data for the form."""
+
+        model = Photo
+        fields = ['title', 'description', 'published']
+
+    def __init__(self, *args, **kwargs):
+        """Set the initial form fields to be filled."""
+        super().__init__(*args, **kwargs)

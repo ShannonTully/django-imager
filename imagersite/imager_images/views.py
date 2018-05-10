@@ -3,9 +3,10 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
+from django.views.generic import UpdateView
 from django.shortcuts import redirect
 from .models import Album, Photo
-from .forms import AlbumForm, PhotoForm
+from .forms import AlbumForm, PhotoForm, AlbumEditForm, PhotoEditForm
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -180,4 +181,48 @@ class AddPhotoView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class AlbumEditView(LoginRequiredMixin, UpdateView):
+    """Define the album edit view."""
+
+    template_name = 'imager_images/album_edit.html'
+    model = Album
+    form_class = AlbumEditForm
+    login_url = reverse_lazy('auth_login')
+    success_url = reverse_lazy('library')
+    slug_url_kwarg = 'id'
+    slug_field = 'id'
+
+    def get_form_kwargs(self):
+        """Get the form data that is submitted by the album to update the album."""
+        kwargs = super().get_form_kwargs()
+        return kwargs
+
+    def form_valid(self, form):
+        """Check that the form information is valid, then save the data."""
+        form.instance.album.save()
+        return super().form_valid(form)
+
+
+class PhotoEditView(LoginRequiredMixin, UpdateView):
+    """Define the photo edit view."""
+
+    template_name = 'imager_images/photo_edit.html'
+    model = Photo
+    form_class = PhotoEditForm
+    login_url = reverse_lazy('auth_login')
+    success_url = reverse_lazy('library')
+    slug_url_kwarg = 'id'
+    slug_field = 'id'
+
+    def get_form_kwargs(self):
+        """Get the form data that is submitted by the photo to update the photo."""
+        kwargs = super().get_form_kwargs()
+        return kwargs
+
+    def form_valid(self, form):
+        """Check that the form information is valid, then save the data."""
+        form.instance.photo.save()
         return super().form_valid(form)

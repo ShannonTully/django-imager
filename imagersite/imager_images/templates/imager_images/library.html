@@ -18,10 +18,9 @@
         {% for album in albums %}
         <a href="{% url 'album_detail' id=album.id %}">
         {% thumbnail album.cover.image "100x100" crop="center" as im %}
-        <img title="{{album.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        <img title="{{album.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
         {% endthumbnail %}
-    </a>
-        <button class="album_edit">Edit</button>
+        <button class="album_edit"><a href="{% url "album_edit" id=album.id %}">{% trans "Edit Album" %}</a></button>
         {% endfor %}
         <button><a href="{% url "add_album" %}">Add New</a></button>
     </section>
@@ -30,7 +29,8 @@
         {% for photo in photos %}
         {% thumbnail photo.image "100x100" crop="center" as im %}
         <a href="{% url "photo_detail" id=photo.id %}"><img title="{{photo.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
-        {% endthumbnail %}       
+        {% endthumbnail %}
+        <button class="photo_edit"><a href="{% url "photo_edit" id=photo.id %}">{% trans "Edit Photo" %}</a></button> 
         {% endfor %}
         <button><a href="{% url "add_photo" %}">Add New</a></button>
     </section>
