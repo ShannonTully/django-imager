@@ -1,5 +1,6 @@
 #main_nav {
     position: absolute;
+    right: 30px;
 }
 
 p {
@@ -17,7 +18,8 @@ li a {
 }
 
 #logo {
-  float: left;
+  position: absolute;
+  left: 20px;
   color: black;
   text-decoration: none;
   margin: 8px 4px;
@@ -28,6 +30,6 @@ li a {
   width: 600px;
 }
 
-.public-album-container img {
+.public-photo-container img {
   width: 600px;
 }
