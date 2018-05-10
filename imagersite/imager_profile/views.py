@@ -4,6 +4,8 @@ from django.views.generic.detail import DetailView
 from django.shortcuts import redirect
 from .models import ImagerProfile
 from imager_images.models import Album, Photo
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 
 class ProfileView(DetailView):
@@ -57,3 +59,4 @@ class ProfileView(DetailView):
             'num_public_photos': num_public_photos,
         })
         return context
+
