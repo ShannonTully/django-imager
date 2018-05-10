@@ -164,3 +164,14 @@ class ProfileViewTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('profile'))
         self.assertEqual(response.context['num_photos'], 5)
+
+    def test_profile_can_be_edited_when_logged_in(self):
+        """Test profile can be edited when logged in."""
+        self.client.force_login(self.user)
+        response = self.client.get(reverse_lazy('settings'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_profile_cant_be_edited_when_not_logged_in(self):
+        """Test profile can't be edited when not logged in."""
+        response = self.client.get(reverse_lazy('settings'))
+        self.assertEqual(response.status_code, 302)

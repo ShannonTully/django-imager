@@ -299,3 +299,29 @@ class ImageViewTests(TestCase):
         photo = Photo.objects.first()
         response = self.client.get(reverse_lazy('photo_detail', kwargs={'id': photo.id}))
         self.assertIsNotNone(response.status_code, 302)
+
+    def test_image_view_photo_edit_logged_in(self):
+        """Test the image view photo edit function."""
+        self.client.force_login(self.user)
+        photo = Photo.objects.first()
+        response = self.client.get(reverse_lazy('photo_edit', kwargs={'id': photo.id}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_image_view_album_edit_logged_in(self):
+        """Test the image view album edit function."""
+        self.client.force_login(self.user)
+        album = Album.objects.first()
+        response = self.client.get(reverse_lazy('album_edit', kwargs={'id': album.id}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_image_view_photo_edit_not_logged_in(self):
+        """Test the image view photo edit function."""
+        photo = Photo.objects.first()
+        response = self.client.get(reverse_lazy('photo_edit', kwargs={'id': photo.id}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_image_view_album_edit_not_logged_in(self):
+        """Test the image view album edit function."""
+        album = Album.objects.first()
+        response = self.client.get(reverse_lazy('album_edit', kwargs={'id': album.id}))
+        self.assertEqual(response.status_code, 302)
