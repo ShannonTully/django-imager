@@ -19,6 +19,7 @@
         <h2>Your Albums and Photos</h2>
         <p>{% trans "You have" %} {{ num_albums }} {% trans "albums" %}, {{ num_public_albums }} {% trans "are public" %}</p>
         <p>{% trans "You have" %} {{ num_photos }} {% trans "photos" %}, {{ num_public_photos }} {% trans "are public" %}</p>
+        <a href="{% url "settings" %}">{% trans "Edit Profile" %}</a>
     </section>
     {% endif %}
 

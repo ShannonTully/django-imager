@@ -21,6 +21,7 @@
         <img title="{{album.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
         {% endthumbnail %}
     </a>
+        <button class="album_edit">Edit</button>
         {% endfor %}
         <button><a href="{% url "add_album" %}">Add New</a></button>
     </section>
