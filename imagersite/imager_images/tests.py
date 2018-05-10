@@ -3,8 +3,12 @@
 from django.test import TestCase
 from .models import Photo, Album, User
 from django.urls import reverse_lazy
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.test import override_settings
 import factory
 import tempfile
+import os
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -85,6 +89,25 @@ class AlbumUnitTests(TestCase):
         one_user = User.objects.first()
         self.assertEqual(one_user.albums.first().description, one_user.albums.first().description)
 
+    def test_user_can_get_to_album_creation(self):
+        """Test user can see album form."""
+        user = User.objects.first()
+        self.client.force_login(user)
+        response = self.client.get('/images/albums/add/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_cant_get_to_album_creation_if_not_logged_in(self):
+        """Test user can see album form."""
+        response = self.client.get('/images/albums/add/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_create_album(self):
+        """Test for album creation."""
+        user = User.objects.first()
+        self.client.force_login(user)
+        response = self.client.post('/images/albums/add/', {'cover': '', 'title': 'title', 'description': 'description', 'published': 'PRIVATE'})
+        self.assertEqual(response.status_code, 302)
+
 
 class PhotoUnitTests(TestCase):
     """Unit tests for the photos."""
@@ -129,6 +152,32 @@ class PhotoUnitTests(TestCase):
         one_album = Album.objects.first()
         self.assertEqual(one_album.photos.first().description, one_album.photos.first().description)
 
+    def test_user_can_get_to_photo_creation(self):
+        """Test user can see photo form."""
+        user = User.objects.first()
+        self.client.force_login(user)
+        response = self.client.get('/images/photos/add/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_cant_get_to_photo_creation_if_not_logged_in(self):
+        """Test user can see photo form."""
+        response = self.client.get('/images/photos/add/')
+        self.assertEqual(response.status_code, 302)
+
+    @override_settings(MEDIA_ROOT=os.path.join(settings.BASE_DIR, 'test_stuff'))
+    def test_create_photo(self):
+        """Test for photo creation."""
+        os.system(f'mkdir {os.path.join(settings.BASE_DIR, "test_stuff")}')
+        user = User.objects.first()
+        self.client.force_login(user)
+        with open(os.path.join(settings.BASE_DIR, 'imagersite/static/camera.png'), 'rb') as f:
+            image = ContentFile(f.read())
+        image.name = 'test.png'
+
+        response = self.client.post('/images/photos/add/', {'albums': [Album.objects.first().id], 'title': 'stuff', 'description': 'stuff', 'image': image, 'published': 'PRIVATE'})
+        self.assertEqual(response.status_code, 302)
+        os.system(f'rm -rf {os.path.join(settings.BASE_DIR, "test_stuff")}')
+
 
 class ImageViewTests(TestCase):
     """Unit tests for the image views."""
@@ -163,7 +212,7 @@ class ImageViewTests(TestCase):
         """Test image view library profile."""
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('library'))
-        self.assertEqual(response.context['profile'].username, self.user.username)
+        self.assertEqual(response.context['user'].username, self.user.username)
 
     def test_image_view_library_photos(self):
         """Test image view library photos."""
@@ -221,16 +270,16 @@ class ImageViewTests(TestCase):
         self.assertEqual(response.context['this_album'].published, 'PUBLIC')
 
     def test_image_view_album_detail_invalid(self):
-        """Test image view album detail that doesnt exist."""
+        """Test image view album detail that doesn't exist."""
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('album_detail', kwargs={'id': 9999}))
-        self.assertEqual(response.context['this_album'], None)
+        self.assertEqual(response.status_code, 404)
 
     def test_image_view_album_detail_not_signed_in(self):
         """Test image view album detail while not signed in."""
         album = Album.objects.first()
         response = self.client.get(reverse_lazy('album_detail', kwargs={'id': album.id}))
-        self.assertEqual(response.context['this_album'].published, 'PUBLIC')
+        self.assertEqual(response.status_code, 302)
 
     def test_image_view_photo_detail(self):
         """Test image view photo detail."""
@@ -243,10 +292,10 @@ class ImageViewTests(TestCase):
         """Test image view photo detail that doesnt exist."""
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('photo_detail', kwargs={'id': 9999}))
-        self.assertEqual(response.context['this_photo'], None)
+        self.assertEqual(response.status_code, 404)
 
     def test_image_view_photo_detail_not_signed_in(self):
         """Test image view photo detail while not signed in."""
         photo = Photo.objects.first()
         response = self.client.get(reverse_lazy('photo_detail', kwargs={'id': photo.id}))
-        self.assertIsNotNone(response.context['this_photo'])
+        self.assertIsNotNone(response.status_code, 302)

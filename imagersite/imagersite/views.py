@@ -21,8 +21,8 @@ class HomeView(TemplateView):
             image_title = image.title
 
         else:
-            image_url = 'media/images/Honey_Hug.jpg'
-            image_title = 'HoneyHug'
+            image_url = 'static/camera.png'
+            image_title = 'logo'
 
         context['image_url'] = image_url
         context['image_title'] = image_title
