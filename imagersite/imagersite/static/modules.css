@@ -1,118 +1,33 @@
 #main_nav {
-    margin-left: 90%;
+    position: absolute;
 }
 
-  p {
-    font-weight: 300;
-  }
+p {
+  font-weight: 300;
+}
 
-  /* li {
-    margin: 5px 1px;
-    color: rgb(85, 75, 212);
-  } */
+li a {
+  margin-top: 25px;
+  margin-left: 9px;
+  color: rgb(19, 102, 32);
+}
 
-  li a {
-    margin-top: 25px;
-    margin-left: 9px;
-    color: rgb(19, 102, 32);
-  }
+#logo {
+  width: 85px;
+}
 
-  
-  #logo {
-    width: 85px;
-  }
-  
-  #logo {
-    float: left;
-    color: black;
-    text-decoration: none;
-    margin: 8px 4px;
-    margin-bottom: 10px;
-  }
-  #honey {
-    width: 600px;
-  }
-  /* .nav_bar {
-    font-family: 'Vollkorn', serif;
-    color: black;
-  }
-  #reg{
-    margin-top: 66px;
-  }
-  li {
-    margin: 5px 1px;
-    color: rgb(85, 75, 212);
-  }
-  
-  #index-hdr {
-    margin: 20px 0px;
-  }
-  
-  #welcome {
-    font-family: 'Berkshire Swash', cursive;
-  }
-  th {
-    border-bottom: 3px solid blue;
-  }
-  td {
-    border-bottom: 2px solid blue;
-    text-align: center;
-  }
-  td.name_col {
-    width: 450px;
-  }
-  td.size_col {
-    width: 65px;
-  }
-  td.detail_col {
-    width: 30px;
-  }
-  td.del_col {
-    width: 30px;
-  }
-  td.move_col {
-    width: 96px;
-  }
-  td.add_col {
-    width: 96px;
-  }
-  #upc {
-    font-family: 'Libre Barcode 39 Text', cursive;
-    font-size: 60px;
-  }
-  #not_db {
-    width: 70px;
-    height: 20px;
-    background-color: white;
-    color: black;
-  }
-  .scan_box {
-    float: left;
-    margin: 20px;
-  }
-  #scan_box {
-    width: 230px;
-    border: solid 5px blue;
-    border-radius: 20px;
-    color:  rgb(17, 17, 82);
-  }
-  #upc_error {
-    color:  red;
-  }
-  .new_entry input {
-    float: right;
-  }
-  fieldset {
-    width: 30%;
-    text-align: center;
-    display: block;
-  }
-  div#image {
-    float:left;
-    height: 100%;
-  }
-  
-  #result{
-    margin-top: 10%;
-    margin-left: 28%;
-  } */
+#logo {
+  float: left;
+  color: black;
+  text-decoration: none;
+  margin: 8px 4px;
+  margin-bottom: 10px;
+}
+
+#home_img {
+  width: 600px;
+}
+
+.public-album-container img {
+  width: 600px;
+}

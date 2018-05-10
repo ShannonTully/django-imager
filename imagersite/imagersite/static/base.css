@@ -2,9 +2,10 @@ body {
     font-family: 'Vollkorn', serif;
     font-weight: 300;
     color: rgb(26, 26, 197);
-    background: rgb(155, 219, 135);
+    background: rgb(175, 39, 152);
   }
   nav {
+      position: relative;
       border: 2px solid rgb(19, 102, 32);
   }
   ul {
