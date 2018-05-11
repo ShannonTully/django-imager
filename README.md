@@ -2,7 +2,7 @@
 
 **Authors**: Steven Starwalt, Shannon Tully
 
-**Version**: 1.0.2
+**Version**: 2.0.2
 
 ## Overview
 A site that hosts images

@@ -11,13 +11,15 @@ class AlbumForm(ModelForm):
         """Meta data for album form."""
 
         model = Album
-        fields = ['cover', 'title', 'description', 'published']
+        fields = ['cover', 'title', 'description', 'published', 'photos']
 
     def __init__(self, *args, **kwargs):
         """Init for album form."""
         username = kwargs.pop('username')
         super().__init__(*args, **kwargs)
-        self.fields['cover'].queryset = Photo.objects.filter(albums__user__username=username)
+        # import pdb; pdb.set_trace()
+        self.fields['cover'].queryset = Photo.objects.filter(user__username=username)
+        self.fields['photos'].queryset = Photo.objects.filter(user__username=username)
 
 
 class PhotoForm(ModelForm):
@@ -27,13 +29,13 @@ class PhotoForm(ModelForm):
         """Meta data for Photo form."""
 
         model = Photo
-        fields = ['albums', 'title', 'description', 'image', 'published']
+        fields = ['title', 'description', 'image', 'published']
 
     def __init__(self, *args, **kwargs):
         """Init for Photo form."""
-        username = kwargs.pop('username')
+        # username = kwargs.pop('username')
         super().__init__(*args, **kwargs)
-        self.fields['albums'].queryset = Album.objects.filter(user__username=username)
+        # self.fields['albums'].queryset = Album.objects.filter(user__username=username)
 
 
 class AlbumEditForm(ModelForm):
@@ -43,7 +45,7 @@ class AlbumEditForm(ModelForm):
         """Define the meta data for the form."""
 
         model = Album
-        fields = ['cover', 'title', 'description', 'published']
+        fields = ['cover', 'title', 'description', 'published', 'photos']
 
     def __init__(self, *args, **kwargs):
         """Set the initial form fields to be filled."""
