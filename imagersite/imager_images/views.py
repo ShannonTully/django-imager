@@ -3,9 +3,10 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
+from django.views.generic import UpdateView
 from django.shortcuts import redirect
 from .models import Album, Photo
-from .forms import AlbumForm, PhotoForm
+from .forms import AlbumForm, PhotoForm, AlbumEditForm, PhotoEditForm
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,12 +19,6 @@ class LibraryView(LoginRequiredMixin, ListView):
     context_object_name = 'albums_and_photos'
 
     login_url = reverse_lazy('auth_login')
-    # def get(self, *args, **kwargs):
-    #     """Check that user is authenticated, get args and kwargs."""
-    #     if not self.request.user.is_authenticated:
-    #         return redirect('home')
-
-    #     return super().get(*args, **kwargs)
 
     def get_queryset(self):
         """Get the context to display."""
@@ -47,18 +42,13 @@ class LibraryView(LoginRequiredMixin, ListView):
         return context
 
 
-class AlbumView(ListView):
+class AlbumView(LoginRequiredMixin, ListView):
     """Define the album view class."""
 
     template_name = 'imager_images/album.html'
     model = Album
 
-    def get(self, *args, **kwargs):
-        """Check that user is authenticated, get args and kwargs."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
-
-        return super().get(*args, **kwargs)
+    login_url = reverse_lazy('auth_login')
 
     def get_context_data(self, **kwargs):
         """Filter the context for display."""
@@ -73,18 +63,13 @@ class AlbumView(ListView):
         return context
 
 
-class PhotoView(ListView):
+class PhotoView(LoginRequiredMixin, ListView):
     """Define the album view class."""
 
     template_name = 'imager_images/photo.html'
     model = Photo
 
-    def get(self, *args, **kwargs):
-        """Check that user is authenticated, get args and kwargs."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
-
-        return super().get(*args, **kwargs)
+    login_url = reverse_lazy('auth_login')
 
     def get_context_data(self, **kwargs):
         """Filter the context for display."""
@@ -99,7 +84,7 @@ class PhotoView(ListView):
         return context
 
 
-class AlbumDetailView(DetailView):
+class AlbumDetailView(LoginRequiredMixin, DetailView):
     """Define the album detail view class."""
 
     template_name = 'imager_images/album_detail.html'
@@ -108,12 +93,7 @@ class AlbumDetailView(DetailView):
     slug_url_kwarg = 'id'
     slug_field = 'id'
 
-    def get(self, *args, **kwargs):
-        """Check that user is authenticated, get args and kwargs."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
-
-        return super().get(*args, **kwargs)
+    login_url = reverse_lazy('auth_login')
 
     def get_context_data(self, **kwargs):
         """Filter the context for display."""
@@ -128,7 +108,7 @@ class AlbumDetailView(DetailView):
         return context
 
 
-class PhotoDetailView(DetailView):
+class PhotoDetailView(LoginRequiredMixin, DetailView):
     """Define the album detail view class."""
 
     template_name = 'imager_images/photo_detail.html'
@@ -137,12 +117,7 @@ class PhotoDetailView(DetailView):
     slug_url_kwarg = 'id'
     slug_field = 'id'
 
-    def get(self, *args, **kwargs):
-        """Check that user is authenticated, get args and kwargs."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
-
-        return super().get(*args, **kwargs)
+    login_url = reverse_lazy('auth_login')
 
     def get_context_data(self, **kwargs):
         """Filter the context for display."""
@@ -157,19 +132,14 @@ class PhotoDetailView(DetailView):
         return context
 
 
-class AddAlbumView(CreateView):
+class AddAlbumView(LoginRequiredMixin, CreateView):
     """Define the add album view class."""
 
     model = Album
     form_class = AlbumForm
     success_url = reverse_lazy('library')
 
-    def get(self, *args, **kwargs):
-        """Check that user is authenticated, get args and kwargs."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
-
-        return super().get(*args, **kwargs)
+    login_url = reverse_lazy('auth_login')
 
     def post(self, *args, **kwargs):
         """Check that user is authenticated, get args and kwargs."""
@@ -188,19 +158,14 @@ class AddAlbumView(CreateView):
         return super().form_valid(form)
 
 
-class AddPhotoView(CreateView):
+class AddPhotoView(LoginRequiredMixin, CreateView):
     """Define the add Photo view class."""
 
     model = Photo
     form_class = PhotoForm
     success_url = reverse_lazy('library')
 
-    def get(self, *args, **kwargs):
-        """Check that user is authenticated, get args and kwargs."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
-
-        return super().get(*args, **kwargs)
+    login_url = reverse_lazy('auth_login')
 
     def post(self, *args, **kwargs):
         """Check that user is authenticated, get args and kwargs."""
@@ -216,4 +181,48 @@ class AddPhotoView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class AlbumEditView(LoginRequiredMixin, UpdateView):
+    """Define the album edit view."""
+
+    template_name = 'imager_images/album_edit.html'
+    model = Album
+    form_class = AlbumEditForm
+    login_url = reverse_lazy('auth_login')
+    success_url = reverse_lazy('library')
+    slug_url_kwarg = 'id'
+    slug_field = 'id'
+
+    def get_form_kwargs(self):
+        """Get the form data that is submitted by the album to update the album."""
+        kwargs = super().get_form_kwargs()
+        return kwargs
+
+    def form_valid(self, form):
+        """Check that the form information is valid, then save the data."""
+        form.instance.album.save()
+        return super().form_valid(form)
+
+
+class PhotoEditView(LoginRequiredMixin, UpdateView):
+    """Define the photo edit view."""
+
+    template_name = 'imager_images/photo_edit.html'
+    model = Photo
+    form_class = PhotoEditForm
+    login_url = reverse_lazy('auth_login')
+    success_url = reverse_lazy('library')
+    slug_url_kwarg = 'id'
+    slug_field = 'id'
+
+    def get_form_kwargs(self):
+        """Get the form data that is submitted by the photo to update the photo."""
+        kwargs = super().get_form_kwargs()
+        return kwargs
+
+    def form_valid(self, form):
+        """Check that the form information is valid, then save the data."""
+        form.instance.photo.save()
         return super().form_valid(form)
