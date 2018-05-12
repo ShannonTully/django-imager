@@ -1,0 +1,113 @@
+---
+- hosts: us-west-2
+  remote_user: ubuntu
+  environment:
+    SECRET_KEY: '{{ secret_key }}'
+  tasks:
+    - name: Update the base Unbutu image
+      apt: update_cache=yes
+      become: yes
+      become_method: sudo
+
+    - name: Install build dependencies
+      apt: name={{ item }} state=latest update_cache=yes
+      become: yes
+      become_method: sudo
+      with_items:
+        - python-dev
+        - python3-venv
+        - python3-pip
+        - build-essential
+        - postgresql-client
+        - nginx
+    # Clone your project
+    - name: clone da ting
+      git:
+        repo: 'https://github.com/ShannonTully/django-imager.git'
+        dest: /home/ubuntu/django-imager
+        clone: yes
+        update: yes
+
+    - name: Create a virtual env for the project to run in
+      command: python3 -m venv /home/ubuntu/ENV
+      become: yes
+      become_method: sudo
+
+    - name: Install Gunicorn into Virtual Environment
+      pip:
+        virtualenv: /home/ubuntu/ENV
+        name: gunicorn
+      become: yes
+      become_method: sudo
+
+    - name: Create a new Gunicorn config
+      template:
+        src: templates/gunicorn.service
+        dest: /etc/systemd/system/gunicorn.service
+      become: yes
+      become_method: sudo
+
+    - name: Register the backup default config for nginx
+      stat: path=/etc/nginx/sites-available/default.bak
+      register: default_stat
+
+    - name: mv and rename default nginx config
+      command: mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+      become: yes
+      become_method: sudo
+      when: not default_stat.stat.exists
+
+    - name: Create a new Nginx config
+      template:
+        src: templates/nginx_config
+        dest: /etc/nginx/sites-available/default
+      become: yes
+      become_method: sudo
+
+    - name: Install the requirements
+      pip:
+        virtualenv: /home/ubuntu/ENV
+        requirements: /home/ubuntu/django-imager/requirements.txt
+      become: yes
+      become_method: sudo
+
+    - name: Stop gunicorn
+      command: systemctl stop gunicorn
+      become: yes
+      become_method: sudo
+
+    - name: Start gunicorn
+      command: systemctl start gunicorn
+      become: yes
+      become_method: sudo
+
+    - name: Enable gunicorn
+      command: systemctl enable gunicorn
+      become: yes
+      become_method: sudo
+
+    - name: Stop nginx
+      command: systemctl stop nginx
+      become: yes
+      become_method: sudo
+
+    - name: Start nginx
+      command: systemctl start nginx
+      become: yes
+      become_method: sudo
+
+    - name: Make Migrations
+      django_manage:
+        command: makemigrations
+        app_path: /home/ubuntu/django-imager/imagersite
+        virtualenv: /home/ubuntu/ENV
+    
+    - name: Migrate the database
+      django_manage:
+        command: migrate
+        app_path: /home/ubuntu/django-imager/imagersite
+        virtualenv: /home/ubuntu/ENV
+
+
+
+    # Don't forget to start/restart your services
