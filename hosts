@@ -1,0 +1,14 @@
+[us-west-2]
+52.26.61.34
+
+[us-west-2:vars]
+ansible_ssh_user='ubuntu'
+ansible_ssh_private_key_file=~/.ssh/stannon.pem
+ansible_python_interpreter=/usr/bin/python3
+server_dns='ec2-52-26-61-34.us-west-2.compute.amazonaws.com'
+project_name='django-imager'
+db_name='imager_site'
+db_user='stannon'
+db_password='codefellows1'
+secret_key='#%q))t0ysl*@e_e06n!=menes=x^4(!8(6b8s7(47zs%n6(#q'
+db_host='imager-site.cy6pmaurefk6.us-west-2.rds.amazonaws.com'
