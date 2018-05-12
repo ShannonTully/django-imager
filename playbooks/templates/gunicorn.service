@@ -3,18 +3,20 @@ Description=gunicorn daemon for imager
 After=network.target
 
 [Service]
-Environment=SECRET_KEY='{{ secret_key }}'
-Environment=DEBUG=True
-Environment=DB_NAME='{{ db_name }}'
-Environment=DB_USER='{{db_user }}'
-Environment=DB_PASSWORD='{{ db_password }}'
-Environment=DB_HOST='{{ db_host }}'
-EnvironmentFile='/home/ubuntu/ENV'
+Environment=SECRET_KEY={{ secret_key }}
+Environment=DEBUG=
+Environment=DB_NAME={{ db_name }}
+Environment=DB_USER={{ db_user }}
+Environment=DB_PASSWORD={{ db_password }}
+Environment=DB_HOST={{ db_host }}
+Environment=ALLOWED_HOSTS={{ server_dns }} localhost
+
 
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/django-imager/src
-ExecStart=/usr/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/django-imager/src/imagersite.sock bookapp:application
+WorkingDirectory=/home/ubuntu/django-imager/imagersite
+ExecStart=/home/ubuntu/ENV/bin/gunicorn --access-logfile - --workers 3 -b 127.0.0.1:8000 imagersite.wsgi
+
 
 [Install]
 WantedBy=multi-user.target
