@@ -2,7 +2,12 @@
 - hosts: us-west-2
   remote_user: ubuntu
   environment:
-    SECRET_KEY: '{{ secret_key }}'
+    SECRET_KEY: "{{ secret_key }}"
+    DB_NAME: "{{ db_name }}"
+    DB_USER: "{{ db_user }}"
+    DB_PASSWORD: "{{ db_password }}"
+    DB_HOST: "{{ db_host }}"
+    ALLOWED_HOSTS: "{{ server_dns }}"
   tasks:
     - name: Update the base Unbutu image
       apt: update_cache=yes
@@ -20,7 +25,7 @@
         - build-essential
         - postgresql-client
         - nginx
-    # Clone your project
+
     - name: clone da ting
       git:
         repo: 'https://github.com/ShannonTully/django-imager.git'
@@ -71,6 +76,11 @@
       become: yes
       become_method: sudo
 
+    - name: Enable gunicorn
+      command: systemctl enable gunicorn
+      become: yes
+      become_method: sudo
+
     - name: Stop gunicorn
       command: systemctl stop gunicorn
       become: yes
@@ -81,8 +91,8 @@
       become: yes
       become_method: sudo
 
-    - name: Enable gunicorn
-      command: systemctl enable gunicorn
+    - name: Enable nginx
+      command: systemctl enable nginx
       become: yes
       become_method: sudo
 
@@ -96,18 +106,16 @@
       become: yes
       become_method: sudo
 
-    - name: Make Migrations
-      django_manage:
-        command: makemigrations
-        app_path: /home/ubuntu/django-imager/imagersite
-        virtualenv: /home/ubuntu/ENV
-    
     - name: Migrate the database
       django_manage:
         command: migrate
         app_path: /home/ubuntu/django-imager/imagersite
         virtualenv: /home/ubuntu/ENV
 
-
+    - name: collect static
+      django_manage:
+        command: collectstatic
+        app_path: /home/ubuntu/django-imager/imagersite
+        virtualenv: /home/ubuntu/ENV
 
     # Don't forget to start/restart your services
