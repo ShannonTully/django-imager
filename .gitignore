@@ -122,3 +122,6 @@ venv.bak/
 
 # MEDIA
 /MEDIA
+
+# hosts
+hosts 
