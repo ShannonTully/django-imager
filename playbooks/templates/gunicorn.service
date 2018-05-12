@@ -3,13 +3,14 @@ Description=gunicorn daemon for imager
 After=network.target
 
 [Service]
-Environment=SECRET_KEY={{ secret_key }}
-Environment=DEBUG=
-Environment=DB_NAME={{ db_name }}
-Environment=DB_USER={{ db_user }}
-Environment=DB_PASSWORD={{ db_password }}
-Environment=DB_HOST={{ db_host }}
-Environment=ALLOWED_HOSTS={{ server_dns }} localhost
+Environment="SECRET_KEY={{ secret_key }}"
+Environment="DEBUG="
+Environment="DB_NAME={{ db_name }}"
+Environment="DB_USER={{ db_user }}"
+Environment="DB_PASSWORD={{ db_password }}"
+Environment="DB_HOST={{ db_host }}"
+Environment="ALLOWED_HOSTS={{ server_dns }} localhost"
+Environment="DJANGO_SETTINGS_MODULE=imagersite.production"
 
 
 User=ubuntu
