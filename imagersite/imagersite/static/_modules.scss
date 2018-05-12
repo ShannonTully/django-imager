@@ -3,10 +3,14 @@
     right: 30px;
 }
 
-p {
-  font-weight: 300;
+#main-title {
+  font-family: 'Permanent Marker', cursive;
+  color: rgb(20, 87, 20);
+  font-size: 560%;
+  position: absolute;
+  left: 150px;
+  text-align: center;
 }
-
 li a {
   margin-top: 25px;
   margin-left: 9px;
@@ -27,9 +31,19 @@ li a {
 }
 
 #home_img {
-  width: 600px;
+  height: 400px;
+  margin: 35px;
 }
 
 .public-photo-container img {
   width: 600px;
+}
+.library-container {
+  margin: 10px;
+}
+.albums {
+  margin: 10px;
+}
+.photos {
+  margin: 10px;
 }

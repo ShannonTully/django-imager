@@ -4,8 +4,8 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-    <h3>Welcome back to Imager {{ user.username }}</h3>
-    <p>What woud you like to do today?</p>
+    <h1>Welcome back to Imager {{ user.username }}</h1>
+    <h3>What woud you like to do today?</h3>
     {%else%}
     <h1>Welcome to Imager!</h1>
     <h2>The site that allows you to post your images online for others to view.</h2>
