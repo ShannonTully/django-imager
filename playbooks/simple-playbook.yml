@@ -1,5 +1,5 @@
 ---
-- hosts: us-west-2
+- hosts: us-east-2
   remote_user: ubuntu
   environment:
     SECRET_KEY: "{{ secret_key }}"
@@ -38,10 +38,10 @@
       become: yes
       become_method: sudo
 
-    - name: Install Gunicorn into Virtual Environment
+    - name: Install the requirements
       pip:
+        requirements: /home/ubuntu/django-imager/requirements.txt
         virtualenv: /home/ubuntu/ENV
-        name: gunicorn
       become: yes
       become_method: sudo
 
@@ -49,6 +49,25 @@
       template:
         src: templates/gunicorn.service
         dest: /etc/systemd/system/gunicorn.service
+      become: yes
+      become_method: sudo
+
+    - name: Migrate the database
+      django_manage:
+        command: migrate
+        app_path: /home/ubuntu/django-imager/imagersite
+        virtualenv: /home/ubuntu/ENV
+
+    - name: collect static
+      django_manage:
+        command: collectstatic
+        app_path: /home/ubuntu/django-imager/imagersite
+        virtualenv: /home/ubuntu/ENV
+
+    - name: Install Gunicorn into Virtual Environment
+      pip:
+        virtualenv: /home/ubuntu/ENV
+        name: gunicorn
       become: yes
       become_method: sudo
 
@@ -69,25 +88,8 @@
       become: yes
       become_method: sudo
 
-    - name: Install the requirements
-      pip:
-        virtualenv: /home/ubuntu/ENV
-        requirements: /home/ubuntu/django-imager/requirements.txt
-      become: yes
-      become_method: sudo
-
-    - name: Enable gunicorn
-      command: systemctl enable gunicorn
-      become: yes
-      become_method: sudo
-
     - name: Stop gunicorn
       command: systemctl stop gunicorn
-      become: yes
-      become_method: sudo
-
-    - name: Start gunicorn
-      command: systemctl start gunicorn
       become: yes
       become_method: sudo
 
@@ -96,26 +98,25 @@
       become: yes
       become_method: sudo
 
-    - name: Stop nginx
-      command: systemctl stop nginx
+    - name: Enable gunicorn
+      command: systemctl enable gunicorn
       become: yes
       become_method: sudo
 
     - name: Start nginx
-      command: systemctl start nginx
+      command: systemctl restart nginx
       become: yes
       become_method: sudo
 
-    - name: Migrate the database
-      django_manage:
-        command: migrate
-        app_path: /home/ubuntu/django-imager/imagersite
-        virtualenv: /home/ubuntu/ENV
+    - name: Start gunicorn
+      command: systemctl start gunicorn
+      become: yes
+      become_method: sudo
 
-    - name: collect static
-      django_manage:
-        command: collectstatic
-        app_path: /home/ubuntu/django-imager/imagersite
-        virtualenv: /home/ubuntu/ENV
+    # - name: Stop nginx
+    #   command: systemctl stop nginx
+    #   become: yes
+    #   become_method: sudo
+
 
     # Don't forget to start/restart your services

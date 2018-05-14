@@ -1,14 +1,14 @@
 body {
-    font-family: 'Vollkorn', serif;
+    font-family: 'Hammersmith One', sans-serif;
     font-weight: 300;
-    color: rgb(26, 26, 197);
-    background: rgb(176, 219, 141);
+    color: rgb(4, 4, 27);
+    background: rgb(199, 49, 29);
   }
   nav {
       position: relative;
       width: 100%;
       height: 100px;
-      border: 2px solid rgb(19, 102, 32);
+      background-color: limegreen;
   }
   ul {
     list-style-type: none;
@@ -18,3 +18,8 @@ body {
     bottom: 10px;
     left: 20px;
   }
+  // font-family: 'Righteous', cursive;
+  // font-family: 'Permanent Marker', cursive;
+  // font-family: 'Kaushan Script', cursive;
+  // font-family: 'Kalam', cursive;
+  // font-family: 'Hammersmith One', sans-serif;
