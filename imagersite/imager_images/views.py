@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic import UpdateView
 from .models import Album, Photo
-from .forms import AlbumForm, PhotoForm, AlbumEditForm, PhotoEditForm
+from .forms import AlbumForm, AlbumEditForm, PhotoEditForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -104,15 +104,16 @@ class AddPhotoView(LoginRequiredMixin, CreateView):
     """Define the add Photo view class."""
 
     model = Photo
-    form_class = PhotoForm
+    fields = ['title', 'description', 'image', 'published']
+    # form_class = PhotoForm
     success_url = reverse_lazy('library')
     login_url = reverse_lazy('auth_login')
 
-    def get_form_kwargs(self):
-        """Get the username."""
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'username': self.request.user.username})
-        return kwargs
+    # def get_form_kwargs(self):
+    #     """Get the username."""
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs.update({'username': self.request.user.username})
+    #     return kwargs
 
     def form_valid(self, form):
         """Add the user to the photo."""
